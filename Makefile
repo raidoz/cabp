@@ -26,6 +26,9 @@ clean:
 	-rm -f $(BIN_DIR)/CABPFromFile
 	-rm -f $(LOGFILE)
 
+bdir:
+	mkdir -p $(BIN_DIR)
+
 simple: main.o Algo
 	$(CXX) -o $(BIN_DIR)/simple $(BIN_DIR)/*.o
 
@@ -34,8 +37,11 @@ CABPFromFile: FromFileMain.o Algo
 
 Algo: NodeSet.o PointSet.o CABP.o
 
-library: Algo core_CABPProxy.o
-	$(CXX) -shared -Wl,-soname,$(LIB_DIR)/libCABP.so $(BIN_DIR)/*.o -o $(LIB_DIR)/libCABP.so
+library: Algo CABPproxy.o
+	$(CXX) -shared -Wl,-soname,libCABP.so $(BIN_DIR)/*.o -o $(BIN_DIR)/libCABP.so
 
-%.o : %.cpp
+jnilibrary: Algo core_CABPProxy.o cabpproxy.o
+	$(CXX) -shared -Wl,-soname,$(LIB_DIR)/libCABPjni.so $(BIN_DIR)/*.o -o $(LIB_DIR)/libCABPjni.so
+
+%.o : %.cpp bdir
 	$(COMPILE)  $< -o $(BIN_DIR)/$@
