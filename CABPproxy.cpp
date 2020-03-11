@@ -1,6 +1,6 @@
 #include "CABP.h"
 
-CABP global_algo(100,200);
+static CABP global_algo(100,200);
 
 extern "C" {
 

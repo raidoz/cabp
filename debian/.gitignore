@@ -1,4 +1,5 @@
 files
-libcabp
-libcabp.substvars
+libcabp0
+libcabp0.substvars
+.debhelper
 *.log

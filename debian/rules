@@ -1,16 +1,20 @@
 #!/usr/bin/make -f
 
 clean:
-	echo $(pwd)
+	rm -Rf debian/.debhelper
+	rm -Rf debian/libcabp0
 	make clean
 
 build:
 	make library
 
 binary:
-	mkdir -p debian/libcabp/usr/local/lib
-	cp bin/libCABP.so debian/libcabp/usr/local/lib/
+	mkdir -p debian/libcabp0/usr/local/lib
+	cp bin/libCABP.so.0 debian/libcabp0/usr/local/lib/
+	dh_makeshlibs
+	dh_shlibdeps
 	dh_gencontrol
+	dh_installdeb
 	dh_builddeb
 
 .PHONY: build

@@ -1,4 +1,4 @@
-libcabp (0.1.0-1) stretch; urgency=medium
+libcabp0 (0.1.0-1) stretch; urgency=medium
 
   * Initial packaging work with dpkg-buildpackage.
 
