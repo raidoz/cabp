@@ -1,0 +1,5 @@
+libcabp (0.1.0-1) stretch; urgency=medium
+
+  * Initial packaging work with dpkg-buildpackage.
+
+ -- Raido Pahtma <raido@thinnect.com>  Wed, 11 Mar 2020 11:12:13 +0000
