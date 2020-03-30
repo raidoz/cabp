@@ -1,23 +1,29 @@
 #include "CABP.h"
 
-static CABP global_algo(100,200);
-
 extern "C" {
 
-	int cabp_position(int16_t* x, int16_t* y, uint16_t* r) {
-		return (int)global_algo.position(x, y, r);
+	void * cabp_create() {
+		return new CABP(100, 200);
 	}
 
-	void cabp_clear() {
-		return global_algo.clear();
+	void cabp_destroy(void * cabp) {
+		delete (CABP*)cabp;
 	}
 
-	int cabp_add_comm_node(uint16_t id, int16_t x, int16_t y, uint16_t r) {
-		return global_algo.addCommNode(id, x, y, r);
+	int cabp_position(void * cabp, int16_t* x, int16_t* y, uint16_t* r) {
+		return (int)((CABP*)cabp)->position(x, y, r);
 	}
 
-	int cabp_add_noncomm_node(uint16_t id, int16_t x, int16_t y, uint16_t r) {
-		return global_algo.addNonCommNode(id, x, y, r);
+	void cabp_clear(void * cabp) {
+		return ((CABP*)cabp)->clear();
+	}
+
+	int cabp_add_comm_node(void * cabp, uint16_t id, int16_t x, int16_t y, uint16_t r) {
+		return ((CABP*)cabp)->addCommNode(id, x, y, r);
+	}
+
+	int cabp_add_noncomm_node(void * cabp, uint16_t id, int16_t x, int16_t y, uint16_t r) {
+		return ((CABP*)cabp)->addNonCommNode(id, x, y, r);
 	}
 
 }

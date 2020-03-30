@@ -1,5 +1,5 @@
-libcabp0 (0.1.0-1) stretch; urgency=medium
+libcabp1 (1.0.0-1) stretch; urgency=medium
 
-  * Initial packaging work with dpkg-buildpackage.
+  * Package version 1 of library.
 
- -- Raido Pahtma <raido@thinnect.com>  Wed, 11 Mar 2020 11:12:13 +0000
+ -- Raido Pahtma <raido@thinnect.com>  Mon, 30 Mar 2020 11:12:13 +0000

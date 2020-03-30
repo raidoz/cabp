@@ -38,7 +38,7 @@ CABPFromFile: FromFileMain.o Algo
 Algo: NodeSet.o PointSet.o CABP.o
 
 library: Algo CABPproxy.o
-	$(CXX) -shared -Wl,-soname,libCABP.so $(BIN_DIR)/*.o -o $(BIN_DIR)/libCABP.so.0
+	$(CXX) -shared -Wl,-soname,libCABP.so.1 $(BIN_DIR)/*.o -o $(BIN_DIR)/libCABP.so.1
 
 package:
 	dpkg-buildpackage -b --no-sign

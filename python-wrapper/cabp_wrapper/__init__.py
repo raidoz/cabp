@@ -7,11 +7,13 @@ import ctypes
 # UTM coordinate transformation https://github.com/Turbo87/utm
 import utm
 
-cabp = ctypes.CDLL("libCABP.so")
+cabp = ctypes.CDLL("libCABP.so.1")
 
 def cabp_position_local(nodes):
+    algo = cabp.cabp_create()
+
     pos_func = cabp.cabp_position
-    pos_func.argtypes = [ctypes.POINTER(ctypes.c_int16), ctypes.POINTER(ctypes.c_int16), ctypes.POINTER(ctypes.c_uint16)]
+    pos_func.argtypes = [ctypes.c_void_p, ctypes.POINTER(ctypes.c_int16), ctypes.POINTER(ctypes.c_int16), ctypes.POINTER(ctypes.c_uint16)]
     pos_func.restype = ctypes.c_int
 
     x = ctypes.c_int16()
@@ -19,11 +21,11 @@ def cabp_position_local(nodes):
     r = ctypes.c_uint16()
 
     for node in nodes:
-        cabp.cabp_add_comm_node(node[0], int(node[1]), int(node[2]), node[3])
+        cabp.cabp_add_comm_node(algo, node[0], int(node[1]), int(node[2]), node[3])
 
-    result = cabp.cabp_position(x, y, r)
+    result = cabp.cabp_position(algo, x, y, r)
 
-    cabp.cabp_clear()
+    cabp.cabp_destroy(algo)
 
     print("result {}: {} {} {}".format(result, x, y, r))
 

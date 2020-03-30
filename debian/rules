@@ -2,15 +2,15 @@
 
 clean:
 	rm -Rf debian/.debhelper
-	rm -Rf debian/libcabp0
+	rm -Rf debian/libcabp1
 	make clean
 
 build:
 	make library
 
 binary:
-	mkdir -p debian/libcabp0/usr/local/lib
-	cp bin/libCABP.so.0 debian/libcabp0/usr/local/lib/
+	mkdir -p debian/libcabp1/usr/local/lib
+	cp bin/libCABP.so.1 debian/libcabp1/usr/local/lib/
 	dh_makeshlibs
 	dh_shlibdeps
 	dh_gencontrol
