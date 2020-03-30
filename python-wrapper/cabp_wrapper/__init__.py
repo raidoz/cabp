@@ -10,7 +10,11 @@ import utm
 cabp = ctypes.CDLL("libCABP.so.1")
 
 def cabp_position_local(nodes):
-    algo = cabp.cabp_create()
+    create_func = cabp.cabp_create
+    create_func.restype = ctypes.c_void_p
+    algo = ctypes.c_void_p(create_func())
+
+    print("algo:{}".format(algo))
 
     pos_func = cabp.cabp_position
     pos_func.argtypes = [ctypes.c_void_p, ctypes.POINTER(ctypes.c_int16), ctypes.POINTER(ctypes.c_int16), ctypes.POINTER(ctypes.c_uint16)]
@@ -21,6 +25,7 @@ def cabp_position_local(nodes):
     r = ctypes.c_uint16()
 
     for node in nodes:
+        print("node: {} ({};{}) R={}".format(node[0], node[1], node[2], node[3]))
         cabp.cabp_add_comm_node(algo, node[0], int(node[1]), int(node[2]), node[3])
 
     result = cabp.cabp_position(algo, x, y, r)
@@ -52,14 +57,14 @@ def cabp_position_global(nodes):
             min_north = north
 
         if (zn, zl) == zone:
-            print("UTM: {} ({};{})".format(node[0], east, north))
+            print("UTM: {} ({};{}) R={}".format(node[0], east, north, node[3]))
             nodes_utm.append((node[0], east, north, node[3]))
         else:
             print("WARN: zone mismatch, discarding node {}", node[0])
 
     # Bring all coordinates relative to the bottom-left because CABP library does
     # not deal well with big numbers (int16 for coordinates)
-    # Thing probably also break if nodes spaced very wide!
+    # Things probably also break if nodes spaced very wide!
     nodes_botlef = []
     for node in nodes_utm:
         nodes_botlef.append((node[0], node[1]-min_east, node[2]-min_north, node[3]))
