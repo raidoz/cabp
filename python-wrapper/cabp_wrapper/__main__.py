@@ -17,3 +17,6 @@ if __name__ == "__main__":
         (2,59.768,29.123,100),
     ]
     print("{}".format(cabp_position_global(nodes)))
+
+    nodes = []
+    print("{}".format(cabp_position_global(nodes)))

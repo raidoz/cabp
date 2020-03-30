@@ -8,7 +8,7 @@ from os.path import join as pjoin
 doclines = __doc__.split("\n")
 
 setup(name='cabp_wrapper',
-      version="0.0.0",
+      version="0.0.1",
       description='Communication Area Based Positioning.',
       long_description='\n'.join(doclines[2:]),
       url='http://github.com/raidoz/cabp',

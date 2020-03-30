@@ -62,10 +62,13 @@ def cabp_position_global(nodes):
     for node in nodes_utm:
         nodes_botlef.append((node[0], node[1]-min_east, node[2]-min_north, node[3]))
 
-    # Calculate positiong in the bottom-left system
-    x, y, r = cabp_position_local(nodes_botlef)
+    if len(nodes_botlef) > 0:
+        # Calculate positiong in the bottom-left system
+        x, y, r = cabp_position_local(nodes_botlef)
 
-    # Convert to UTM by adding the offsets, convert to latitude-longitude
-    lat, lon = utm.to_latlon(x+min_east, y+min_north, zone[0], zone[1], strict=False)
+        # Convert to UTM by adding the offsets, convert to latitude-longitude
+        lat, lon = utm.to_latlon(x+min_east, y+min_north, zone[0], zone[1], strict=False)
 
-    return (lat, lon, r)
+        return (lat, lon, r)
+
+    return None
