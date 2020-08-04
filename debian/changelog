@@ -1,3 +1,15 @@
+libcabp2 (2.0.0-1) stretch; urgency=medium
+
+  * Convert types to 32-bits.
+
+ -- Raido Pahtma <raido@thinnect.com>  Wed, 30 Jul 2020 11:12:13 +0000
+
+libcabp1 (1.1.0-1) stretch; urgency=medium
+
+  * Exposed distance compensation control.
+
+ -- Raido Pahtma <raido@thinnect.com>  Wed, 29 Jul 2020 11:12:13 +0000
+
 libcabp1 (1.0.0-1) stretch; urgency=medium
 
   * Package version 1 of library.

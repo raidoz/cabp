@@ -4,8 +4,8 @@
 #include "NodeSet.h"
 
 typedef struct point_t {
-	int16_t x;
-	int16_t y;
+	int32_t x;
+	int32_t y;
 	node_t *na;
 	node_t *nb;
 } point_t;
@@ -27,7 +27,7 @@ private:
 	bool intersects(node_t *n);
 	bool isWithinRangeOfSet(point_t  *p);
 	bool isWithinRangeOfNode(node_t *n, point_t *p);
-	uint16_t distance(int16_t x1, int16_t y1, int16_t x2, int16_t y2);
+	uint32_t distance(int32_t x1, int32_t y1, int32_t x2, int32_t y2);
 
 private:
 	uint8_t max_points;

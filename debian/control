@@ -1,11 +1,11 @@
-Source: libcabp1
+Source: libcabp2
 Section: misc
 Priority: optional
 Maintainer: Raido Pahtma <raido@thinnect.com>
 Build-Depends: debhelper (>= 9)
 
-Package: libcabp1
-Conflicts: libcabp0
+Package: libcabp2
+Conflicts: libcabp0, libcabp1
 Architecture: any
 Description: CABP Library.
  Communication Area Based Positioning.

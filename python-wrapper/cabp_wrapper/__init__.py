@@ -7,7 +7,7 @@ import ctypes
 # UTM coordinate transformation https://github.com/Turbo87/utm
 import utm
 
-cabp = ctypes.CDLL("libCABP.so.1")
+cabp = ctypes.CDLL("libCABP.so.2")
 
 def cabp_position_local(nodes):
     create_func = cabp.cabp_create
@@ -16,13 +16,17 @@ def cabp_position_local(nodes):
 
     print("algo:{}".format(algo))
 
+    comp_func = cabp.cabp_enable_compensating
+    comp_func.argtypes = [ctypes.c_void_p, ctypes.c_uint32]
+    cabp.cabp_enable_compensating(algo, 5)
+
     pos_func = cabp.cabp_position
-    pos_func.argtypes = [ctypes.c_void_p, ctypes.POINTER(ctypes.c_int16), ctypes.POINTER(ctypes.c_int16), ctypes.POINTER(ctypes.c_uint16)]
+    pos_func.argtypes = [ctypes.c_void_p, ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_int32), ctypes.POINTER(ctypes.c_uint32)]
     pos_func.restype = ctypes.c_int
 
-    x = ctypes.c_int16()
-    y = ctypes.c_int16()
-    r = ctypes.c_uint16()
+    x = ctypes.c_int32()
+    y = ctypes.c_int32()
+    r = ctypes.c_uint32()
 
     for node in nodes:
         print("node: {} ({};{}) R={}".format(node[0], node[1], node[2], node[3]))

@@ -45,7 +45,7 @@
 		shell_sort();
 	}
 
-	uint16_t NodeSet::distance(int16_t x1, int16_t y1, int16_t x2, int16_t y2) {
+	uint16_t NodeSet::distance(int32_t x1, int32_t y1, int32_t x2, int32_t y2) {
 		int32_t xdiff, ydiff;
 		xdiff = x1 - x2;
 		ydiff = y1 - y2;
@@ -88,14 +88,14 @@
 	bool NodeSet::intersects(node_t *n) {
 		uint8_t i = 0;
 		uint8_t analyzed = 0;
-		uint16_t d;
+		uint32_t d;
 		if(n == NULL) return FALSE;
 		for(i=0;i<max_nodes;i++) {
 			if(analyzed >= nodeCount) break; // Rest of the array is empty
 			if(nodes[i] != NULL) {
 				analyzed++;
 				d = distance(n->x, n->y, nodes[i]->x, nodes[i]->y);
-				if( !( (d < (nodes[i]->r + n->r)) && (d > abs(nodes[i]->r - n->r)) ) ) {
+				if( !( (d < (nodes[i]->r + n->r)) && (d > abs((int64_t)(nodes[i]->r) - (int64_t)(n->r))) ) ) {
 					return FALSE;
 				}
 			}

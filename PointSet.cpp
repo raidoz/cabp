@@ -1,7 +1,7 @@
 #include "PointSet.h"
 #include <cstdio>
 
-	uint16_t PointSet::distance(int16_t x1, int16_t y1, int16_t x2, int16_t y2) {
+	uint32_t PointSet::distance(int32_t x1, int32_t y1, int32_t x2, int32_t y2) {
 		int32_t xdiff, ydiff;
 		xdiff = x1 - x2;
 		ydiff = y1 - y2;

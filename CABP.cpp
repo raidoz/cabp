@@ -25,8 +25,8 @@
 		d_2 = dy*dy + dx*dx;
 		d = sqrt(d_2);
 
-		if(d > (nodeN->r + nodeP->r)) return FAIL; /* No solution. Circles do not intersect. */
-		if(d < abs(nodeN->r - nodeP->r)) return FAIL; /* No solution. One circle is contained in the other. */
+		if(d > ((int64_t)(nodeN->r) + (int64_t)(nodeP->r))) return FAIL; /* No solution. Circles do not intersect. */
+		if(d < abs((int64_t)(nodeN->r) - (int64_t)(nodeP->r))) return FAIL; /* No solution. One circle is contained in the other. */
 
 		/* Determine the distance from point 0 to point 2. */
 		a = (r0_2 - r1_2 + d_2) / (2 * d) ;
@@ -55,35 +55,35 @@
 		return SUCCESS;
 	}
 
-	uint16_t CABP::distance(int16_t x1, int16_t y1, int16_t x2, int16_t y2) {
+	uint32_t CABP::distance(int32_t x1, int32_t y1, int32_t x2, int32_t y2) {
 		int32_t xdiff, ydiff;
 		xdiff = x1 - x2;
 		ydiff = y1 - y2;
 		return sqrt(xdiff*xdiff + ydiff*ydiff);
 	}
 
-	uint8_t CABP::checkIntersection(node_t* node1, node_t* node2, uint16_t* dist) {
-		uint16_t d = distance(node1->x, node1->y, node2->x, node2->y);
+	uint8_t CABP::checkIntersection(node_t* node1, node_t* node2, uint32_t* dist) {
+		uint32_t d = distance(node1->x, node1->y, node2->x, node2->y);
 		*dist = d; // We also return the distance to the calling function
 		if(d < (node1->r + node2->r)) {
-			if(d > abs(node1->r - node2->r)) return INTERSECT;
+			if(d > abs((int64_t)(node1->r) - (int64_t)(node2->r))) return INTERSECT;
 			else return INSIDE;
 		}
 		return OUTSIDE;
 	}
 
-	uint16_t CABP::calculateMultiplier(uint16_t r, uint16_t r2, uint16_t dist) {
+	uint32_t CABP::calculateMultiplier(uint32_t r, uint32_t r2, uint32_t dist) {
 		uint32_t nr = dist - r;
 		uint32_t c2 = (nr * 100) / r2 - 100;
-		printf("r2 = %d, nr = %d, c2 = %d\n", r2, nr, c2);
+		printf("d=%d, r=%d, r2 = %d, nr = %d, c2 = %d\n", dist, r, r2, nr, c2);
 		return ((c2 / compensationMultiplier) + 1) * compensationMultiplier;
 	}
 
 	error_t CABP::createSetN() { /* Create set N */
 		node_t *nodeL = NULL;
 		node_t *nodeN = NULL;
-		uint16_t dist = 0;
-		uint16_t c = 0;
+		uint32_t dist = 0;
+		uint32_t c = 0;
 		bool intersects = TRUE;
 
 		printf("SetL has %d nodes.\n",setL->count());
@@ -126,8 +126,8 @@
 
 								if((nodeN->c == 0) || (nodeL->c == 0)) return FAIL; // Some math problem somewhere probably, FAIL, because would cause a loop otherwise
 
-								nodeN->r = (nodeN->rm * (100 + nodeN->c)) / 100;
-								nodeL->r = (nodeL->rm * (100 + nodeL->c)) / 100;
+								nodeN->r = (nodeN->rm * (100 + nodeN->c)) / 100 + 1;
+								nodeL->r = (nodeL->rm * (100 + nodeL->c)) / 100 + 1;
 								setN->clear();
 								return ERETRY;
 							}
@@ -226,16 +226,16 @@
 		return SUCCESS;
 	}
 
-	error_t CABP::calculateCenterAndRadius(int16_t *xC, int16_t *yC, uint16_t *rC) {
+	error_t CABP::calculateCenterAndRadius(int32_t *xC, int32_t *yC, uint32_t *rC) {
 		uint8_t i = 0;
 		point_t *p = NULL;
 		node_t *node = NULL;
 		int32_t dx = 0;
 		int32_t dy = 0;
-		uint16_t d = 0;
+		uint32_t d = 0;
 		int32_t x = 0;
 		int32_t y = 0;
-		uint16_t r = 0;
+		uint32_t r = 0;
 
 		if(psetP->count() > 0) {
 			psetP->startIteration();
@@ -274,7 +274,7 @@
 		return SUCCESS;
 	}
 
-	error_t CABP::position(int16_t *xC, int16_t *yC, uint16_t *rC) {
+	error_t CABP::position(int32_t *xC, int32_t *yC, uint32_t *rC) {
 		point_t *p = NULL;
 		node_t *node = NULL;
 		bool firstStepDone = FALSE;
@@ -325,7 +325,7 @@
 		return FAIL;
 	}
 
-	error_t CABP::addCommNode(uint16_t nodeID, int16_t x, int16_t y, uint16_t r) {
+	error_t CABP::addCommNode(uint16_t nodeID, int32_t x, int32_t y, uint32_t r) {
 		if(count < max_nodes) {
 			nodes[count].nodeID = nodeID;
 			nodes[count].x = x;
@@ -342,7 +342,7 @@
 		return FAIL;
 	}
 
-	error_t CABP::addNonCommNode(uint16_t nodeID, int16_t x, int16_t y, uint16_t r) {
+	error_t CABP::addNonCommNode(uint16_t nodeID, int32_t x, int32_t y, uint32_t r) {
 		if(count < max_nodes) {
 			nodes[count].nodeID = nodeID;
 			nodes[count].x = x;
@@ -393,7 +393,7 @@
 		clear();
 	}
 
-	void CABP::enableCompensating(uint16_t multiplier) {
+	void CABP::enableCompensating(uint32_t multiplier) {
 		if(multiplier > 0) {
 			compensatingEnabled = TRUE;
 			compensationMultiplier = multiplier;

@@ -6,13 +6,13 @@
 class CABP {
 public:
 	CABP(uint8_t max_nodes, uint8_t max_points);
-	void enableCompensating(uint16_t multiplier);
+	void enableCompensating(uint32_t multiplier);
 	void disableCompensating();
 
-	error_t addCommNode(uint16_t nodeID, int16_t x, int16_t y, uint16_t r);
-	error_t addNonCommNode(uint16_t nodeID, int16_t x, int16_t y, uint16_t r);
+	error_t addCommNode(uint16_t nodeID, int32_t x, int32_t y, uint32_t r);
+	error_t addNonCommNode(uint16_t nodeID, int32_t x, int32_t y, uint32_t r);
 
-	error_t position(int16_t *xC, int16_t *yC, uint16_t *rC);
+	error_t position(int32_t *xC, int32_t *yC, uint32_t *rC);
 
 	PointSet *getPointSet();
 	NodeSet *getNodeSetL();
@@ -27,15 +27,15 @@ private:
 	error_t createSetP();
 	error_t createSetM();
 	error_t combineSetPwithSetM();
-	error_t calculateCenterAndRadius(int16_t *xC, int16_t *yC, uint16_t *rC);
+	error_t calculateCenterAndRadius(int32_t *xC, int32_t *yC, uint32_t *rC);
 
 	// Functions:
-	uint16_t distance(int16_t x1, int16_t y1, int16_t x2, int16_t y2);
-	uint8_t checkIntersection(node_t* node1, node_t* node2, uint16_t* dist);
+	uint32_t distance(int32_t x1, int32_t y1, int32_t x2, int32_t y2);
+	uint8_t checkIntersection(node_t* node1, node_t* node2, uint32_t* dist);
 
 	error_t calculateIntersection(node_t *nodeN, node_t *nodeP, point_t *q1, point_t *q2);
 
-	uint16_t calculateMultiplier(uint16_t r, uint16_t r2, uint16_t dist);
+	uint32_t calculateMultiplier(uint32_t r, uint32_t r2, uint32_t dist);
 
 	enum {
 		INTERSECT,
